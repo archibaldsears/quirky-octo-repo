@@ -49,7 +49,46 @@ backend/
    REDIS_URL=your_redis_url
    ```
 
-5. Run the FastAPI application:
+5. Run
+### Python Version
+
+Ensure you have Python 3.8 or higher installed. You can check your Python version with the following command:
+
+```bash
+python --version
+```
+ the FastAPI application:
+ 
+#### Server Configuration
+
+The FastAPI application runs on Uvicorn, an ASGI server. You can start the server with the following command:
+
+```bash
+uvicorn app:app --reload
+```
+
+This command starts the server in development mode with auto-reload enabled. For production deployment, you can use a more robust server configuration with Gunicorn and Uvicorn workers:
+
+```bash
+gunicorn -k uvicorn.workers.UvicornWorker app:app
+```
+
+Adjust the number of workers and other parameters as needed for your production environment.
+
+#### Celery and Redis Configuration
+
+To process asynchronous tasks, you'll need to run a Celery worker and configure Redis as the message broker. Start the Celery worker with the following command:
+
+```bash
+celery -A tasks worker --loglevel=info
+```
+
+Ensure Redis is running and accessible at the URL specified in your `.env` file. You can start Redis using Docker:
+
+```bash
+docker run -d -p 6379:6379 redis
+```
+
    ```
    uvicorn app:app --reload
    ```
